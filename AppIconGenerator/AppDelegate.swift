@@ -8,19 +8,24 @@
 
 import Cocoa
 
+struct OpenRecent {
+    static let NotificationName = Notification.Name("Open Recent")
+    static let Key = "Open Recent Key"
+}
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-
-
-
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+    
+    func application(_ sender: NSApplication, openFile filename: String) -> Bool {
+        let center = NotificationCenter.default
+        let notification = Foundation.Notification(name: OpenRecent.NotificationName, object: nil, userInfo: [OpenRecent.Key: filename])
+        center.post(notification)
+        return true
     }
 
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        return true
     }
-
 
 }
 
